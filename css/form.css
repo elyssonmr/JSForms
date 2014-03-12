@@ -2,10 +2,10 @@ th.command {
 	width: 5%;
 }
 
-#actions {
+.actions {
 	margin-bottom: 10px;
 }
 
-#form {
+.bottom-space {
 	clear: both;
 }
