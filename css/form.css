@@ -5,3 +5,7 @@ th.command {
 #actions {
 	margin-bottom: 10px;
 }
+
+#form {
+	clear: both;
+}
