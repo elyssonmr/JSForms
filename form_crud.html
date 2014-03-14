@@ -55,6 +55,24 @@
                 </div>
                 <!--Create/Update Form-->
                 <div id="form">
+                    <div class="modal fade" id="modalConfimation" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="modalTitle">Confima a Exclusão?</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h3>Deseja Realmente deletar esse Registro?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="btnDelete">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -65,17 +83,17 @@
                           <div class="modal-body">
                             <form action="#" method="POST">
                                 <div class="form-group">
-                                    <label class="control-label" class="control-label" for="name">Nome:</label>
-                                    <input class="form-control" id="name" name="name" placeholder="Nome do Furmulário">
+                                    <label class="control-label" class="control-label" for="nameField">Nome:</label>
+                                    <input class="form-control" id="nameField" name="nameField" placeholder="Nome do Furmulário">
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label" for="expirationDate">Data Expiração:</label>
+                                    <label class="control-label" for="expirationField">Data Expiração:</label>
                                     <div id="datepicker" class="input-append date">
                                         <div class="input-group">
                                             <span class="input-group-addon add-on">
                                                 <i class="glyphicon glyphicon-calendar"></i>  
                                             </span>
-                                            <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="expirationDate" name="expirationDate" read-only/>
+                                            <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="expirationField" name="expirationField" read-only/>
                                             
                                         </div>
                                     </div>
@@ -89,7 +107,7 @@
                                     <div class="form-group list-group-item">
                                         <label class="control-label" for="question1">Pergunta 1:</label>
                                         <input class="form-control" id="question1" name="question1" placeholder="Pergunta">
-                                        <div class="form-inline">
+                                        <div class="form-group form-inline">
                                             <input class="form-control" id="question1_1" name="question1_1" placeholder="Resposta 1">
                                             <input class="form-control" id="question1_1" name="question1_2" placeholder="Resposta 2">
                                             <input class="form-control" id="question1_1" name="question1_3" placeholder="Resposta 3">
@@ -128,7 +146,7 @@
                                 <td><a class="btn btn-warning"
                                 href="#"><i
                                     class="glyphicon glyphicon-edit"></i></a></td>
-                                <td><a href="#" class="btn btn-danger delete-btn"><i class="glyphicon glyphicon-remove"></i></a></td>
+                                <td><a href="#" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a></td>
                             </tr>
 
                             <tr>
