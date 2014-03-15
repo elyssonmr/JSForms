@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		var thisDB = e.target.result;
 
 		if(!thisDB.objectStoreNames.contains("people")) {
-			var people = thisDB.createObjectStore("people", {autoIncrement:true});
+			var people = thisDB.createObjectStore("people", {autoIncrement:true, keyPath:"key"});
 			people.createIndex("emailIndex", "email", { unique: true });
 		}
 	}
