@@ -7,21 +7,20 @@ protocolApp.controller('protocolController', function($scope) {
  		//{desc: 'Descriçao', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
  		//{desc: 'Descriçao2', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
  		//{desc: 'Descriçao3', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
- 		//{desc: 'Descriçao4', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'}
+ 		//{desc: 'Descriçao4', type: 'Documento', eventDate: '18/03/2014', status: 'Devolvido'}
  	];
 
  	$scope.init = function() {
  		$('#datepicker').datetimepicker({
             language: 'pt-BR',
-            pickTime: false,
-            startDate: new Date()
+            pickTime: false
         });
  		console.log('INIT');
         $('#eventDate').click(function() {
             $('.add-on').click();
         });
 
-        $('#eventDate').click(function() {
+        $('#eventDate').focus(function() {
             $('.add-on').click();
         });
         $scope.modalForm = $('#modalForm');

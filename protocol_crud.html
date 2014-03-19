@@ -23,7 +23,7 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li><a href="form_crud.html"><i class="fa fa-plus-square-o"></i> Cadastro de Protocolos</a></li>
+                                <li><a href="protocol_crud.html"><i class="fa fa-plus-square-o"></i> Cadastro de Protocolos</a></li>
                                     <li class="dropdown">
                                         <a class="dropdown" data-toggle="dropdown" href="#"><i class="fa fa-info-circle"></i> Relatórios<b class="caret"></b>
                                         </a>
@@ -38,7 +38,7 @@
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="divider-vertical"></li>
-                                <li><a href="https://github.com/elyssonmr/JSForms"><i class="fa fa-github "></i> JSForms</a></li>
+                                <li><a href="https://github.com/elyssonmr/JSForms"><i class="fa fa-github "></i> JSProtocols</a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
@@ -46,9 +46,14 @@
             </section>
 
             <section id="content">
+                <div class="pull-left actions input-group filter-field">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>    
+                    <input type="text" class="form-control input-lg" ng-model="searchStr">                    
+                </div>
+
                 <div class="pull-right actions">
                     <button class="btn btn-primary btn-lg" ng-click="showModal('add')"><i class="fa fa-plus-circle"></i> Adicionar Protocolo</button>
-                </div>
+                </div>                
                 <!--Create/Update Form-->
                 <div id="form">
                     <div class="modal fade" id="modalConfimation" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
@@ -93,7 +98,7 @@
                                                     <span class="input-group-addon add-on" ng-click="showCalendar()">
                                                         <i class="glyphicon glyphicon-calendar"></i> 
                                                     </span>
-                                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date"/>           
+                                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date"/>     
                                                 </div>
                                             </div>
                                         </div>
@@ -116,15 +121,18 @@
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Descrição do Protocolo</th>
-                                <th>Tipo</th>
-                                <th>Data do Evento</th>
-                                <th>Status</th>
-                                <th class="command">Ações</th>
+                                <th class="text-center">Descrição do Protocolo</th>
+                                <th class="text-center">Tipo</th>
+                                <th class="text-center">Data do Evento</th>
+                                <th class="text-center">Status</th>
+                                <th class="command text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="protocol in protocols">
+                            <tr ng-hide="protocols.length">
+                                <td colspan="5" class="text-center">Nenhum Protocolo Cadastrado!!</td>
+                            </tr>
+                            <tr ng-repeat="protocol in protocols | filter:searchStr">
                                 <td>{{ protocol.desc }}</td>
                                 <td>{{ protocol.type }}</td>
                                 <td>{{ protocol.eventDate }}</td>
@@ -142,7 +150,7 @@
                     </table>
                 </div>
             </section>
-            <footer class="well well-small text-center">JSForms - Élysson Mendes Rezende & João Marco de Paula Santana</footer>
+            <footer class="well well-small text-center">JSProtocols - Élysson Mendes Rezende & João Marco de Paula Santana</footer>
         </section>
 
         
