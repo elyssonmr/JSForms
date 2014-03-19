@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/form.css">
         <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
-
+        <link rel="stylesheet" href="css/bootstrap-select.min.css">
         <title>JSProtocols - Cadastro</title>
     </head>
     <body>
@@ -85,11 +85,15 @@
                                     <div class="modal-body">                                
                                         <div class="form-group">
                                             <label class="control-label" class="control-label" for="description">Descrição:</label>
-                                            <input class="form-control" id="description" name="description" placeholder="Descrição" ng-model="desc">
+                                            <input class="form-control" id="description" name="description" placeholder="Descrição" ng-model="desc" required>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" class="control-label" for="type">Tipo:</label>
-                                            <input class="form-control" id="type" name="type" placeholder="Tipo" ng-model="type">
+                                            <select class="selectpicker" ng-model='type' show-tick>
+                                                <option selected="selected">Documento</option>
+                                                <option>Pasta</option>
+                                                <option>Outros</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" for="eventDate">Data do Evento:</label>
@@ -105,7 +109,11 @@
                                     
                                         <div class="form-group">
                                             <label class="control-label" class="control-label" for="status">Status:</label>
-                                            <input class="form-control" id="status" name="status" placeholder="Tipo" ng-model="status">
+                                            <select class="selectpicker" ng-model="status" show-tick>
+                                                <option>Protocolado</option>
+                                                <option>Com pendências</option>
+                                                <option>Recusado</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -160,5 +168,6 @@
         <script src="js/controller/ProtocolController.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
     </body>
 </html>

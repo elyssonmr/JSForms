@@ -11,6 +11,8 @@ protocolApp.controller('protocolController', function($scope) {
  	];
 
  	$scope.init = function() {
+        $('.selectpicker').selectpicker();
+
  		$('#datepicker').datetimepicker({
             language: 'pt-BR',
             pickTime: false
