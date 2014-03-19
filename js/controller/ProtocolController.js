@@ -1,5 +1,5 @@
 /*
- * protocol Controller
+ * Protocol Controller
  */
 protocolApp.controller('protocolController', function($scope) {
  	//It should be coming from a service or DAO
