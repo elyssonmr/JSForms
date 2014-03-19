@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="protocolApp">
     <head>
         <meta charset="utf-8">
         <meta name="author" content="Élysson MR & João Marco" />
@@ -11,13 +11,10 @@
         <link rel="stylesheet" href="css/form.css">
         <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
 
-        <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
         <title>JSForms - Cadastro</title>
     </head>
     <body>
-        <section class="container">
+        <section class="container" ng-controller="protocolController" data-ng-init="init()">
             <section id="header">
                 <nav class="navbar navbar-inverse" role="navigation">
                     <div class="container-fluid">
@@ -51,7 +48,7 @@
 
             <section id="content">
                 <div class="pull-right actions">
-                    <button class="btn btn-primary btn-lg" id="addForm"><i class="fa fa-plus-circle"></i> Adicionar Formulário</button>
+                    <button class="btn btn-primary btn-lg" ng-click="showModal('add')"><i class="fa fa-plus-circle"></i> Adicionar Protocolo</button>
                 </div>
                 <!--Create/Update Form-->
                 <div id="form">
@@ -59,115 +56,88 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="deleteRow(false)">&times;</button>
                                     <h4 class="modal-title" id="modalTitle">Confima a Exclusão?</h4>
                                 </div>
                                 <div class="modal-body">
                                     <h3>Deseja Realmente deletar esse Registro?</h3>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary" id="btnDelete">Confirmar</button>
+                                    <button type="button" class="btn btn-default" ng-click="deleteRow(false)">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="btnDelete" ng-click="deleteRow(true)">Confirmar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="modalTitle"></h4>
-                          </div>
-                          <div class="modal-body">
-                            <form action="#" method="POST">
-                                <div class="form-group">
-                                    <label class="control-label" class="control-label" for="nameField">Nome:</label>
-                                    <input class="form-control" id="nameField" name="nameField" placeholder="Nome do Furmulário">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label" for="expirationField">Data Expiração:</label>
-                                    <div id="datepicker" class="input-append date">
-                                        <div class="input-group">
-                                            <span class="input-group-addon add-on">
-                                                <i class="glyphicon glyphicon-calendar"></i>  
-                                            </span>
-                                            <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="expirationField" name="expirationField" read-only/>
-                                            
+                        <form action="" method="POST" ng-submit="addProtocol()">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="modalTitle">{{ title }}</h4>
+                                    </div>
+                                    <div class="modal-body">                                
+                                        <div class="form-group">
+                                            <label class="control-label" class="control-label" for="description">Descrição:</label>
+                                            <input class="form-control" id="description" name="description" placeholder="Descrição" ng-model="desc">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" class="control-label" for="type">Tipo:</label>
+                                            <input class="form-control" id="type" name="type" placeholder="Tipo" ng-model="type">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label" for="eventDate">Data do Evento:</label>
+                                            <div id="datepicker" class="input-append date">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon add-on" ng-click="showCalendar()">
+                                                        <i class="glyphicon glyphicon-calendar"></i> 
+                                                    </span>
+                                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date"/>           
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-group">
+                                            <label class="control-label" class="control-label" for="status">Status:</label>
+                                            <input class="form-control" id="status" name="status" placeholder="Tipo" ng-model="status">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group clearfix actions">
-                                    <label class="control-label">Perguntas:</label>
-                                    <a class="btn btn-primary pull-right" id="addQuestion" href="#">Adicionar Pergunta</a>
-                                </div>
-
-                                <div class="list-group">
-                                    <div class="form-group list-group-item">
-                                        <label class="control-label" for="question1">Pergunta 1:</label>
-                                        <input class="form-control" id="question1" name="question1" placeholder="Pergunta">
-                                        <div class="form-group form-inline">
-                                            <input class="form-control" id="question1_1" name="question1_1" placeholder="Resposta 1">
-                                            <input class="form-control" id="question1_1" name="question1_2" placeholder="Resposta 2">
-                                            <input class="form-control" id="question1_1" name="question1_3" placeholder="Resposta 3">
-                                            <input class="form-control" id="question1_1" name="question1_4" placeholder="Resposta 4">
-                                        </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success">Salvar</button>
                                     </div>
                                 </div>
-                            </form>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-success" id="btnSave">Salvar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                            </div>
+                        </form>
+                    </div>                    
                 </div>
                 <div id="table">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>Nome</th>
-                                <th>Data Expiração</th>
-                                <th>Nº de Perguntas</th>
-                                <th>Nº de Respostas</th>
-                                <th class="command">Editar</th>
-                                <th class="command">Excluir</th>
+                                <th>Descrição do Protocolo</th>
+                                <th>Tipo</th>
+                                <th>Data do Evento</th>
+                                <th>Status</th>
+                                <th class="command">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Pesquisa Salarial</td>
-                                <td>31/03/2014</td>
-                                <td>5</td>
-                                <td>300</td>
-                                <td><a class="btn btn-warning"
-                                href="#"><i
-                                    class="glyphicon glyphicon-edit"></i></a></td>
-                                <td><a href="#" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a></td>
-                            </tr>
-
-                            <tr>
-                                <td>Pesquisa de Satisfação da Pós de Desenvolvimento Ágil de Aplicativos para Web e Dispositivos Móveis</td>
-                                <td>31/03/2014</td>
-                                <td>15</td>
-                                <td>500</td>
-                                <td><a class="btn btn-warning"
-                                href="#"><i
-                                    class="glyphicon glyphicon-edit"></i></a></td>
-                                <td><a href="#" class="btn btn-danger delete-btn"><i class="glyphicon glyphicon-remove"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Pesquisa Salarial</td>
-                                <td>31/03/2014</td>
-                                <td>5</td>
-                                <td>300</td>
-                                <td><a class="btn btn-warning"
-                                href="#"><i
-                                    class="glyphicon glyphicon-edit"></i></a></td>
-                                <td><a href="#" class="btn btn-danger delete-btn"><i class="glyphicon glyphicon-remove"></i></a></td>
+                            <tr ng-repeat="protocol in protocols">
+                                <td>{{ protocol.desc }}</td>
+                                <td>{{ protocol.type }}</td>
+                                <td>{{ protocol.eventDate }}</td>
+                                <td>{{ protocol.status }}</td>
+                                <td>
+                                    <a class="btn btn-warning" href="#" ng-click="prepareEditRow($index)">
+                                        <i class="glyphicon glyphicon-edit"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger" ng-click="prepareDeleteRow($index)">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -176,6 +146,12 @@
             <footer class="well well-small text-center">JSForms - Élysson Mendes Rezende & João Marco de Paula Santana</footer>
         </section>
 
-        <script src="js/form_crud.js"></script>
+        
+        <script src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/vendor/angular.min.js"></script>
+        <script src="js/protocolApp.js"></script>
+        <script src="js/controller/ProtocolController.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
     </body>
 </html>

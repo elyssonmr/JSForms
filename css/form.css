@@ -1,5 +1,9 @@
 th.command {
-	width: 5%;
+	width: 10%;
+}
+
+.table th {
+	text-align: center;
 }
 
 .actions {
