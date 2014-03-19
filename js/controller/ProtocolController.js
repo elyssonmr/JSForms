@@ -33,7 +33,7 @@ protocolApp.controller('protocolController', function($scope) {
  		protocol.id = 0;
  		protocol.desc = $scope.desc;
  		protocol.type = $scope.type;
- 		//Verificar com o Edy o porque eu precisei fazer essa gambis
+ 		//Verify why we need this workaround with Edy
  		protocol.eventDate = $(eventDate).val();
  		protocol.status = $scope.status;
 
