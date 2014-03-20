@@ -10,6 +10,11 @@ protocolApp.controller('protocolController', function($scope) {
  		//{desc: 'Descriçao4', type: 'Documento', eventDate: '18/03/2014', status: 'Devolvido'}
  	];
 
+    $scope.typesList = ['Documento', 'Pasta', 'Outros'];
+    $scope.statusList = ['Protocolado', 'Com Pendência', 'Recusado'];
+    $scope.type = $scope.typesList[0];
+    $scope.status = $scope.statusList[0];
+
  	$scope.init = function() {
         $('.selectpicker').selectpicker();
 
@@ -46,7 +51,9 @@ protocolApp.controller('protocolController', function($scope) {
  			$scope.protocols.push(protocol);
  			console.log("Adicionado");
  		}
- 		$scope.desc = $scope.type = $scope.date = $scope.status = "";
+ 		$scope.desc = $scope.date = "";
+        $scope.type = $scope.typesList[0];
+        $scope.status = $scope.statusList[0];
  		$scope.modalForm.modal('hide');
  	};
 

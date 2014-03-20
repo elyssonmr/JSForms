@@ -89,10 +89,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label" class="control-label" for="type">Tipo:</label>
-                                            <select class="selectpicker" ng-model='type' show-tick>
-                                                <option selected="selected">Documento</option>
-                                                <option>Pasta</option>
-                                                <option>Outros</option>
+                                            <select class="form-control" ng-model="type" ng-options="type for type in typesList" required>       
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -102,17 +99,14 @@
                                                     <span class="input-group-addon add-on" ng-click="showCalendar()">
                                                         <i class="glyphicon glyphicon-calendar"></i> 
                                                     </span>
-                                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date"/>     
+                                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date" required/>     
                                                 </div>
                                             </div>
                                         </div>
                                     
                                         <div class="form-group">
                                             <label class="control-label" class="control-label" for="status">Status:</label>
-                                            <select class="selectpicker" ng-model="status" show-tick>
-                                                <option>Protocolado</option>
-                                                <option>Com pendências</option>
-                                                <option>Recusado</option>
+                                            <select class="form-control" ng-model="status" ng-options="status for status in statusList">
                                             </select>
                                         </div>
                                     </div>
@@ -159,15 +153,13 @@
                 </div>
             </section>
             <footer class="well well-small text-center">JSProtocols - Élysson Mendes Rezende & João Marco de Paula Santana</footer>
-        </section>
-
-        
+        </section>        
         <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
         <script type="text/javascript" src="js/vendor/angular.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>         
         <script src="js/protocolApp.js"></script>
         <script src="js/controller/ProtocolController.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
     </body>
 </html>
