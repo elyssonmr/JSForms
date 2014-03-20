@@ -1,7 +1,7 @@
 /*
  * Protocol Controller
  */
-protocolApp.controller('protocolController', function($scope) {
+protocolApp.controller('protocolController', function($scope, IdxDbService) {
  	//It should be coming from a service or DAO
  	$scope.protocols = [
  		//{desc: 'Descriçao', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
@@ -32,6 +32,8 @@ protocolApp.controller('protocolController', function($scope) {
         });
         $scope.modalForm = $('#modalForm');
         $scope.modalDelete = $('#modalConfimation');
+
+        IdxDbService.init();
  	};
 
  	$scope.addProtocol = function() {
