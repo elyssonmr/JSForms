@@ -84,7 +84,7 @@ protocolApp.service('IdxDbService', [function () {
 			desc:protocol.desc,
 			type:protocol.type,
 			eventDate:protocol.eventDate,
-			status:protocol.eventDate
+			status:protocol.status
 		}
 
 		//Perform the add
@@ -97,6 +97,8 @@ protocolApp.service('IdxDbService', [function () {
 
 		request.onsuccess = function(e) {
 			console.log("Protocol added!");
+			//Get the ID from the result request
+			protocol.key = request.result;
 		}
 		
 		return protocol;
@@ -128,6 +130,36 @@ protocolApp.service('IdxDbService', [function () {
 		} else {
 
 		}		
+	};
+	
+	this.getById = function(key) {
+		var protocol = {};
+		var transaction = db.transaction(["protocol"],"readonly");
+		var store = transaction.objectStore("protocol");
+		
+		var request = store.get(Number(key));
+		
+		request.onsuccess = function(e) {
+
+			var result = e.target.result;
+			if(result) {
+				for(var field in result) {
+					if(field=='desc'){
+						protocol.desc = result[field];
+					} else if (field=='type'){
+						protocol.type = result[field];
+					} else if (field=='eventDate'){
+						protocol.eventDate = result[field];
+					} else if (field=='status'){
+						protocol.status = result[field];
+					} else if (field=='key'){
+						protocol.key = result[field];
+					}
+				}
+			} else {
+			}	
+		}	
+	return protocol;		
 	};
 	
 	this.getByDesc = function(desc) {
@@ -171,7 +203,8 @@ protocolApp.service('IdxDbService', [function () {
 		console.log("About to update a protocol");
 		
 		var protocolToUpdate = {};
-		protocolToUpdate = this.getByDesc(protocol.desc);
+		//Get the protocol by description, must be by ID, not description!!!
+		protocolToUpdate = this.getById(protocol.key);
 		
 		//Get a transaction
 		//default for OS list is all, default for type is read

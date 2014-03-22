@@ -41,9 +41,9 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
 
  	$scope.addProtocol = function() {
  		var protocol = {};
- 		protocol.key = 0;
  		protocol.desc = $scope.desc;
  		protocol.type = $scope.type;
+		protocol.key = $scope.key;
  		//Verify why we need this workaround with Edy
  		protocol.eventDate = $(eventDate).val();
  		protocol.status = $scope.status;
@@ -54,8 +54,8 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
 			IdxDbService.update(protocol);
  			console.log("Editado");
  		} else {
+			protocol = IdxDbService.create(protocol);
  			$scope.protocols.push(protocol);
-			IdxDbService.create(protocol);
  			console.log("Adicionado");
  		}
  		$scope.desc = $scope.date = "";
@@ -70,6 +70,7 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
  		$scope.type = protocol.type;
  		$scope.date = protocol.eventDate;
  		$scope.status = protocol.status;
+		$scope.key = protocol.key;
  		$scope.index = index;
  		$scope.showModal('edit');
  	};
