@@ -34,11 +34,14 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
         $scope.modalDelete = $('#modalConfimation');
 
         IdxDbService.init();
+		
+		console.log("Lendo os protocolos");
+		protocols = IdxDbService.getProtocols();
  	};
 
  	$scope.addProtocol = function() {
  		var protocol = {};
- 		protocol.id = 0;
+ 		protocol.key = 0;
  		protocol.desc = $scope.desc;
  		protocol.type = $scope.type;
  		//Verify why we need this workaround with Edy
@@ -48,9 +51,11 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
  		if ($scope.index > -1) {
  			$scope.protocols[$scope.index] = protocol;
  			$scope.index = -1;
+			IdxDbService.update(protocol);
  			console.log("Editado");
  		} else {
  			$scope.protocols.push(protocol);
+			IdxDbService.create(protocol);
  			console.log("Adicionado");
  		}
  		$scope.desc = $scope.date = "";
