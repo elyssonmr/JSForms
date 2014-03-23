@@ -35,8 +35,15 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
 
         IdxDbService.init();
 		
-		console.log("Lendo os protocolos");
-		protocols = IdxDbService.getProtocols();
+        $('#loading').modal('show');
+        //loading Popup
+		console.log("Lendo os protocolos");        
+        setTimeout(function () {
+            $scope.$apply(function () {
+                $scope.protocols = IdxDbService.getProtocols();
+                $('#loading').modal('hide');
+            });
+        }, 2000);
  	};
 
  	$scope.addProtocol = function() {
@@ -82,9 +89,11 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
 
  	$scope.deleteRow = function(confirmation) {
  		if(confirmation) {
- 			$scope.protocols.splice($scope.index, 1);
+            var key = $scope.protocols[$scope.index].key;
+ 			IdxDbService.delete(key);
+            $scope.protocols.splice($scope.index, 1);
  		}
- 		$scope.index = -1;
+        $scope.index = -1;
  		$scope.modalDelete.modal('hide');
  	};
 
