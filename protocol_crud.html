@@ -55,11 +55,11 @@
                     <button class="btn btn-primary btn-lg" ng-click="showModal('add')"><i class="fa fa-plus-circle"></i> Adicionar Protocolo</button>
                 </div>         
 
-                <div class="modal fade" id="loading" role="dialog" data-backdrop="static" aria-hidden="true">
+                <div class="modal fade" id="loading" role="dialog" data-backdrop="static" tabindex="-1" aria-hidden="true" aria-labelledby="Loading">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="modalTitle">Por favor Espere!</h4>
+                                    <h4 class="modal-title" id="modalTitle">Por favor, Espere!</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="progress progress-striped active">
@@ -91,51 +91,51 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <form action="" method="POST" ng-submit="addProtocol()">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title" id="modalTitle">{{ title }}</h4>
+                <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <form action="" method="POST" ng-submit="addProtocol()">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="modalTitle">{{ title }}</h4>
+                                </div>
+                                <div class="modal-body">                                
+                                    <div class="form-group">
+                                        <label class="control-label" class="control-label" for="description">Descrição:</label>
+                                        <input class="form-control" id="description" name="description" placeholder="Descrição" ng-model="desc" required>
                                     </div>
-                                    <div class="modal-body">                                
-                                        <div class="form-group">
-                                            <label class="control-label" class="control-label" for="description">Descrição:</label>
-                                            <input class="form-control" id="description" name="description" placeholder="Descrição" ng-model="desc" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label" class="control-label" for="type">Tipo:</label>
-                                            <select class="form-control" ng-model="type" ng-options="type for type in typesList" required>       
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label" for="eventDate">Data do Evento:</label>
-                                            <div id="datepicker" class="input-append date">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon add-on" ng-click="showCalendar()">
-                                                        <i class="glyphicon glyphicon-calendar"></i> 
-                                                    </span>
-                                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date" required/>     
-                                                </div>
+                                    <div class="form-group">
+                                        <label class="control-label" class="control-label" for="type">Tipo:</label>
+                                        <select class="form-control" ng-model="type" ng-options="type for type in typesList" required>       
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="eventDate">Data do Evento:</label>
+                                        <div id="datepicker" class="input-append date">
+                                            <div class="input-group">
+                                                <span class="input-group-addon add-on" ng-click="showCalendar()">
+                                                    <i class="glyphicon glyphicon-calendar"></i> 
+                                                </span>
+                                                <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date" required/>     
                                             </div>
                                         </div>
-                                    
-                                        <div class="form-group">
-                                            <label class="control-label" class="control-label" for="status">Status:</label>
-                                            <select class="form-control" ng-model="status" ng-options="status for status in statusList">
-                                            </select>
-                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-success">Salvar</button>
+                                
+                                    <div class="form-group">
+                                        <label class="control-label" class="control-label" for="status">Status:</label>
+                                        <select class="form-control" ng-model="status" ng-options="status for status in statusList">
+                                        </select>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Salvar</button>
+                                </div>
                             </div>
-                        </form>
-                    </div>                    
+                        </div>
+                    </form>
                 </div>
                 <div id="table">
                     <table class="table table-bordered table-hover table-striped">
