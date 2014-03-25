@@ -202,31 +202,34 @@ protocolApp.service('IdxDbService', [function () {
 	this.update = function(protocol) {
 		console.log("About to update a protocol");
 		
-		var protocolToUpdate = {};
-		//Get the protocol by description, must be by ID, not description!!!
-		protocolToUpdate = this.getById(protocol.key);
-		
 		//Get a transaction
 		//default for OS list is all, default for type is read
 		var transaction = db.transaction(["protocol"],"readwrite");
 		//Ask for the objectStore
 		var store = transaction.objectStore("protocol");
+		
+		//Get the protocol by description, must be by ID, not description!!!
+		store.get(Number(protocol.key)).onsuccess = function(e) {
+			var protocolToUpdate = e.target.result;
+			//Perform the update
+			protocolToUpdate.desc = protocol.desc;
+			protocolToUpdate.type = protocol.type;
+			protocolToUpdate.eventDate = protocol.eventDate;
+			protocolToUpdate.status = protocol.status;
+			var request = store.put(protocolToUpdate);
+
+			request.onerror = function(e) {
+				console.log("Error",e.target.error.name);
+				//some type of error handler
+			}
+
+			request.onsuccess = function(e) {
+				console.log("Protocol updated!");
+			}
+		
+		}
 					
-		//Perform the update
-		protocolToUpdate.desc = protocol.desc;
-		protocolToUpdate.type = protocol.type;
-		protocolToUpdate.eventDate = protocol.eventDate;
-		protocolToUpdate.status = protocol.status;
-		var request = store.put(protocolToUpdate);
-
-		request.onerror = function(e) {
-			console.log("Error",e.target.error.name);
-			//some type of error handler
-		}
-
-		request.onsuccess = function(e) {
-			console.log("Protocol updated!");
-		}
+		
 	};
 
 	this.delete = function(key) {
