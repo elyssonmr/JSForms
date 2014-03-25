@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
-        <link rel="stylesheet" href="css/bootstrap-select.min.css">
         <title>JSProtocols - Cadastro</title>
     </head>
     <body>
@@ -91,7 +90,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearFields()">&times;</button>
                                     <h4 class="modal-title" id="modalTitle">{{ title }}</h4>
                                 </div>
                                 <div class="modal-body">                                
@@ -123,7 +122,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearFields()">Cancelar</button>
                                     <button type="submit" class="btn btn-success">Salvar</button>
                                 </div>
                             </div>
@@ -165,12 +164,12 @@
             </section>
             <footer class="well well-small text-center">JSProtocols - Élysson Mendes Rezende & João Marco de Paula Santana</footer>
         </section>        
-        <script src="js/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap-select.min.js"></script>
-        <script type="text/javascript" src="js/vendor/angular.min.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>         
+        <script src="js/vendor/jquery/jquery.js"></script>
+        <script src="js/vendor/bootstrap/bootstrap.min.js"></script>
+        <script src="js/vendor/angular/angular.min.js"></script>
+        <script src="js/vendor/bootstrap/bootstrap-datetimepicker.min.js"></script>         
         <script src="js/protocolApp.js"></script>
+        <script src="js/service/IdxDBService.js"></script>
         <script src="js/controller/ProtocolController.js"></script>
     </body>
 </html>

@@ -2,13 +2,7 @@
  * Protocol Controller
  */
 protocolApp.controller('protocolController', function($scope, IdxDbService) {
- 	//It should be coming from a service or DAO
- 	$scope.protocols = [
- 		//{desc: 'Descriçao', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
- 		//{desc: 'Descriçao2', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
- 		//{desc: 'Descriçao3', type: 'Documento', eventDate: '18/03/2014', status: 'Entregue'},
- 		//{desc: 'Descriçao4', type: 'Documento', eventDate: '18/03/2014', status: 'Devolvido'}
- 	];
+ 	$scope.protocols = [];
 
     $scope.typesList = ['Documento', 'Pasta', 'Outros'];
     $scope.statusList = ['Protocolado', 'Com Pendência', 'Recusado'];
@@ -16,8 +10,6 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
     $scope.status = $scope.statusList[0];
 
  	$scope.init = function() {
-        $('.selectpicker').selectpicker();
-
  		$('#datepicker').datetimepicker({
             language: 'pt-BR',
             pickTime: false
@@ -27,14 +19,14 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
             $('.add-on').click();
         });
 
-        $('#eventDate').focus(function() {
+        $scope.eventDate = $('#eventDate');
+        $scope.eventDate.focus(function() {
             $('.add-on').click();
         });
         $scope.modalForm = $('#modalForm');
         $scope.modalDelete = $('#modalConfimation');
 
-        IdxDbService.init();
-		
+        IdxDbService.init();		
         $('#loading').modal('show');
         //loading Popup
 		console.log("Lendo os protocolos");        
@@ -52,7 +44,7 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
  		protocol.type = $scope.type;
 		protocol.key = $scope.key;
  		//Verify why we need this workaround with Edy
- 		protocol.eventDate = $(eventDate).val();
+ 		protocol.eventDate = $scope.eventDate.val();
  		protocol.status = $scope.status;
 
  		if ($scope.index > -1) {
@@ -65,11 +57,16 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
  			$scope.protocols.push(protocol);
  			console.log("Adicionado");
  		}
- 		$scope.desc = $scope.date = "";
-        $scope.type = $scope.typesList[0];
-        $scope.status = $scope.statusList[0];
+ 		$scope.clearFields();
  		$scope.modalForm.modal('hide');
  	};
+
+    $scope.clearFields = function() {
+        $scope.desc = $scope.date = "";
+        $scope.type = $scope.typesList[0];
+        $scope.status = $scope.statusList[0];
+        $scope.eventDate.val("");
+    };
 
  	$scope.prepareEditRow = function(index) {
  		var protocol = $scope.protocols[index];
