@@ -232,7 +232,7 @@ protocolApp.service('IdxDbService', [function () {
 		
 	};
 
-	this.delete = function(key) {
+	this.deleteProtocol = function(key) {
 		if(key === "" || isNaN(key)) return;
 		
 		var transaction = db.transaction(["protocol"], "readwrite");
@@ -241,11 +241,11 @@ protocolApp.service('IdxDbService', [function () {
 		var request = store.delete(Number(key));
 	  
 		request.onsuccess = function(e) {
-		  getProtocols(e);
+		  console.log("Deleted key: ", key);
 		};
 	  
 		request.onerror = function(e) {
-		  console.log("Error Deleting: ", e);
+		  console.log("Error Deleting key: ", key);
 		};
 	};
 }]);

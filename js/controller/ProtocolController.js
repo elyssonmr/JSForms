@@ -90,8 +90,9 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
  	$scope.deleteRow = function(confirmation) {
  		if(confirmation) {
             var key = $scope.protocols[$scope.index].key;
- 			IdxDbService.delete(key);
+ 			IdxDbService.deleteProtocol(key);
             $scope.protocols.splice($scope.index, 1);
+			$scope.protocols = IdxDbService.getProtocols();
  		}
         $scope.index = -1;
  		$scope.modalDelete.modal('hide');
