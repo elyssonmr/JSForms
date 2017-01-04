@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="protocolApp">
     <head>
         <meta charset="utf-8">
         <meta name="author" content="Élysson MR & João Marco" />
@@ -11,9 +11,7 @@
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 
-        <script src="js/vendor/jquery/jquery.js"></script>
-        <script src="js/vendor/bootstrap/bootstrap.min.js"></script>
-        <title>JSProtocols</title>
+        <title>JSProtocols {{ pageTitle }}</title>
     </head>
     <body>
         <section class="container">
@@ -46,5 +44,12 @@
             </section>
             <footer class="well well-small text-center">JSProtocols - Élysson Mendes Rezende & João Marco de Paula Santana</footer>
         </section>
+        <script src="js/vendor/jquery/jquery.js"></script>
+        <script src="js/vendor/bootstrap/bootstrap.min.js"></script>
+        <script src="js/vendor/angular/angular.min.js"></script>
+        <script src="js/vendor/bootstrap/bootstrap-datetimepicker.min.js"></script>
+        <script src="js/protocolApp.js"></script>
+        <script src="js/service/IdxDBService.js"></script>
+        <script src="js/controller/JSFormsController.js"></script>
     </body>
 </html>
