@@ -13,8 +13,8 @@ protocolApp.config(function($routeProvider) {
             controller: "protocolController"
         })
         .when("/report", {
-            templateUrl: "partials/report.html",
-            controller: "ReportController"
+            templateUrl: "partials/reports.html",
+            controller: "reportController"
         })
         .otherwise({redirectTo:'/'});
 });
