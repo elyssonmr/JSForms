@@ -1,7 +1,8 @@
-protocolApp.service('IdxDbService', [function () {	
+angular.module("protocolApp")
+.service('IdxDbService', [function () {
 	var db = {};
 	var protocols = [];
-	
+
 	this.init = function() {
 		this.db = this.initDB();
 
@@ -9,7 +10,7 @@ protocolApp.service('IdxDbService', [function () {
 		console.log('iniciado o IndexedDB');
 	};
 
-	this.initDB = function() {		
+	this.initDB = function() {
 		//No support? Go in the corner and pout.
 		if(!"indexedDB" in window) return;
 
@@ -27,13 +28,13 @@ protocolApp.service('IdxDbService', [function () {
 		openRequest.onsuccess = function(e) {
 			db = e.target.result;
 			console.log("Bando de dados Aberto");
-			
+
 			console.log("Realizando consulta");
 			db.transaction(["protocol"], "readonly").objectStore("protocol").openCursor().onsuccess = function(e) {
 				var cursor = e.target.result;
-				if(cursor) {	
+				if(cursor) {
 					var protocol = {};
-					protocol.key = cursor.key;			
+					protocol.key = cursor.key;
 					for(var field in cursor.value) {
 						if(field=='desc'){
 							protocol.desc = cursor.value[field];
@@ -49,9 +50,9 @@ protocolApp.service('IdxDbService', [function () {
 					protocols.push(protocol);
 					cursor.continue();
 				}
-			}	
-			
-		}	
+			}
+
+		}
 
 		openRequest.onerror = function(e) {
 			//Do something for the error
@@ -68,7 +69,7 @@ protocolApp.service('IdxDbService', [function () {
 		var transaction = db.transaction(["protocol"],"readwrite");
 		//Ask for the objectStore
 		var store = transaction.objectStore("protocol");
-					
+
 		//Define a protocol
 		var protocol = {
 			desc:protocol.desc,
@@ -90,7 +91,7 @@ protocolApp.service('IdxDbService', [function () {
 			//Get the ID from the result request
 			protocol.key = request.result;
 		}
-		
+
 		return protocol;
 	};
 
@@ -98,9 +99,9 @@ protocolApp.service('IdxDbService', [function () {
 		if(filters) {
 			db.transaction(["protocol"], "readonly").objectStore("protocol").openCursor().onsuccess = function(e) {
 				var cursor = e.target.result;
-				if(cursor) {	
+				if(cursor) {
 					var protocol = {};
-					protocol.key = cursor.key;			
+					protocol.key = cursor.key;
 					for(var field in cursor.value) {
 						if(field=='desc'){
 							protocol.desc = cursor.value[field];
@@ -119,16 +120,16 @@ protocolApp.service('IdxDbService', [function () {
 			}
 		} else {
 
-		}		
+		}
 	};
-	
+
 	this.getById = function(key) {
 		var protocol = {};
 		var transaction = db.transaction(["protocol"],"readonly");
 		var store = transaction.objectStore("protocol");
-		
+
 		var request = store.get(Number(key));
-		
+
 		request.onsuccess = function(e) {
 
 			var result = e.target.result;
@@ -147,21 +148,21 @@ protocolApp.service('IdxDbService', [function () {
 					}
 				}
 			} else {
-			}	
-		}	
-	return protocol;		
+			}
+		}
+	return protocol;
 	};
-	
+
 	this.getByDesc = function(desc) {
 		if(desc === "" ) return;
-		
+
 		var protocol = {};
 		var transaction = db.transaction(["protocol"],"readonly");
 		var store = transaction.objectStore("protocol");
 		var index = store.index("desc");
-		
+
 		var request = index.get(desc);
-		
+
 		request.onsuccess = function(e) {
 
 			var result = e.target.result;
@@ -180,24 +181,24 @@ protocolApp.service('IdxDbService', [function () {
 					}
 				}
 			} else {
-			}	
-		}	
-	return protocol;		
+			}
+		}
+	return protocol;
 	};
-	
+
 	this.getProtocols = function() {
-		return protocols;		
+		return protocols;
 	};
 
 	this.update = function(protocol) {
 		console.log("About to update a protocol");
-		
+
 		//Get a transaction
 		//default for OS list is all, default for type is read
 		var transaction = db.transaction(["protocol"],"readwrite");
 		//Ask for the objectStore
 		var store = transaction.objectStore("protocol");
-		
+
 		//Get the protocol by description, must be by ID, not description!!!
 		store.get(Number(protocol.key)).onsuccess = function(e) {
 			var protocolToUpdate = e.target.result;
@@ -216,24 +217,24 @@ protocolApp.service('IdxDbService', [function () {
 			request.onsuccess = function(e) {
 				console.log("Protocol updated!");
 			}
-		
+
 		}
-					
-		
+
+
 	};
 
 	this.deleteProtocol = function(key) {
 		if(key === "" || isNaN(key)) return;
-		
+
 		var transaction = db.transaction(["protocol"], "readwrite");
 		var store = transaction.objectStore("protocol");
-	  
+
 		var request = store.delete(Number(key));
-	  
+
 		request.onsuccess = function(e) {
 		  console.log("Deleted key: ", key);
 		};
-	  
+
 		request.onerror = function(e) {
 		  console.log("Error Deleting key: ", key);
 		};

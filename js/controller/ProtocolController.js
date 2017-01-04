@@ -1,7 +1,5 @@
-/*
- * Protocol Controller
- */
-protocolApp.controller('protocolController', function($scope, IdxDbService) {
+angular.module("protocolApp")
+.controller('protocolController', function($scope, IdxDbService) {
  	$scope.protocols = [];
 
     $scope.typesList = ['Documento', 'Pasta', 'Outros'];

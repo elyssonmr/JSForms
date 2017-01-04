@@ -1,4 +1,5 @@
-protocolApp.controller('reportController', function($scope, IdxDbService) {
+angular.module("protocolApp")
+.controller('reportController', function($scope, IdxDbService) {
     $scope.protocols = [];
 
     $scope.init = function() {
