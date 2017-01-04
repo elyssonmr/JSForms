@@ -1,0 +1,125 @@
+<section id="content">
+    <div class="pull-left actions input-group filter-field">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+        <input type="text" class="form-control input-lg" ng-model="searchStr">
+    </div>
+
+    <div class="pull-right actions">
+        <button class="btn btn-primary btn-lg" ng-click="showModal('add')"><i class="fa fa-plus-circle"></i> Adicionar Protocolo</button>
+    </div>
+
+    <div class="modal fade" id="loading" role="dialog" data-backdrop="static" tabindex="-1" aria-hidden="true" aria-labelledby="Loading">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitle">Por favor, Espere!</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">Carregando Protocolos</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Create/Update Form-->
+    <div class="modal fade" id="modalConfimation" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="deleteRow(false)">&times;</button>
+                    <h4 class="modal-title" id="modalTitle">Confima a Exclusão?</h4>
+                </div>
+                <div class="modal-body">
+                    <h3>Deseja Realmente deletar esse Registro?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="deleteRow(false)">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnDelete" ng-click="deleteRow(true)">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <form action="" method="POST" ng-submit="addProtocol()">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clearFields()">&times;</button>
+                        <h4 class="modal-title" id="modalTitle">{{ title }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label" class="control-label" for="description">Descrição:</label>
+                            <input class="form-control" id="description" name="description" placeholder="Descrição" ng-model="desc" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" class="control-label" for="type">Tipo:</label>
+                            <select class="form-control" ng-model="type" ng-options="type for type in typesList" required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="eventDate">Data do Evento:</label>
+                            <div id="datepicker" class="input-append date">
+                                <div class="input-group">
+                                    <span class="input-group-addon add-on" ng-click="showCalendar()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </span>
+                                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date" required/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label" class="control-label" for="status">Status:</label>
+                            <select class="form-control" ng-model="status" ng-options="status for status in statusList">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearFields()">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="table" class="clearfix">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Descrição do Protocolo</th>
+                    <th class="text-center">Tipo</th>
+                    <th class="text-center">Data do Evento</th>
+                    <th class="text-center">Status</th>
+                    <th class="command text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-hide="protocols.length">
+                    <td colspan="5" class="text-center">Nenhum Protocolo Cadastrado!!</td>
+                </tr>
+                <tr ng-repeat="protocol in protocols | filter:searchStr">
+                    <td>{{ protocol.desc }}</td>
+                    <td>{{ protocol.type }}</td>
+                    <td>{{ protocol.eventDate }}</td>
+                    <td>{{ protocol.status }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="#" ng-click="prepareEditRow($index)">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                        <a href="#" class="btn btn-danger" ng-click="prepareDeleteRow($index)">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

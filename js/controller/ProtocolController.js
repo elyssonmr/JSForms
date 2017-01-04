@@ -26,10 +26,10 @@ protocolApp.controller('protocolController', function($scope, IdxDbService) {
         $scope.modalForm = $('#modalForm');
         $scope.modalDelete = $('#modalConfimation');
 
-        IdxDbService.init();		
+        IdxDbService.init();
         $('#loading').modal('show');
         //loading Popup
-		console.log("Lendo os protocolos");        
+		console.log("Lendo os protocolos");
         setTimeout(function () {
             $scope.$apply(function () {
                 $scope.protocols = IdxDbService.getProtocols();

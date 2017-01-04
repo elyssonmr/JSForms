@@ -10,8 +10,7 @@ protocolApp.config(function($routeProvider) {
         })
         .when("/protocol", {
             templateUrl: "partials/protocols.html",
-            controller: "ProtocolController",
-            reloadOnSearch: false
+            controller: "protocolController"
         })
         .when("/report", {
             templateUrl: "partials/report.html",
