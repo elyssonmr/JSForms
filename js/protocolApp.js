@@ -1,8 +1,5 @@
-/*
- * AngularJS Module
- */
 angular.module("protocolApp", ["ngRoute"])
-.config(function($routeProvider) {
+.config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
             templateUrl: "/partials/main.html"
@@ -16,6 +13,7 @@ angular.module("protocolApp", ["ngRoute"])
             controller: "reportController"
         })
         .otherwise({redirectTo:'/'});
+    $locationProvider.hashPrefix('');
 })
 .run(function($rootScope, $location) {
     $rootScope.pageTitle = "";
