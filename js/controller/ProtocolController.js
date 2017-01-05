@@ -24,16 +24,23 @@ angular.module("protocolApp")
         $scope.modalForm = $('#modalForm');
         $scope.modalDelete = $('#modalConfimation');
 
-        IdxDbService.init();
         $('#loading').modal('show');
+        IdxDbService.init().then(function() {
+            IdxDbService.listAll().then(function(protocols) {
+                $scope.protocols = protocols;
+                $('#loading').modal('hide');
+            });
+        });
+        /*
         //loading Popup
 		console.log("Lendo os protocolos");
         setTimeout(function () {
             $scope.$apply(function () {
                 $scope.protocols = IdxDbService.getProtocols();
-                $('#loading').modal('hide');
+
             });
         }, 2000);
+        */
  	};
 
  	$scope.addProtocol = function() {

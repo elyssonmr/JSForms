@@ -1,65 +1,72 @@
 angular.module("protocolApp")
-.service('IdxDbService', [function () {
-	var db = {};
-	var protocols = [];
+.service('IdxDbService', ["$q", function ($q) {
+    service = this;
+	service.db = {};
 
-	this.init = function() {
-		this.db = this.initDB();
+	service.init = function() {
+        return $q(function(resolve, reject) {
+            if(!"indexedDB" in window) {
+                reject("IndexedDB Não suportado");
+            }
 
+            var openRequest = indexedDB.open("protocol_db", 1);
+            openRequest.onupgradeneeded = function(event) {
+    			var thisDB = event.target.result;
 
-		console.log('iniciado o IndexedDB');
+    			if(!thisDB.objectStoreNames.contains("protocol")) {
+    				var protocol = thisDB.createObjectStore("protocol", {autoIncrement: true, keyPath: "key"});
+    				protocol.createIndex("desc", "desc", {unique: false});
+    			}
+    		};
+
+            openRequest.onsuccess = function(event) {
+                service.db = event.target.result;
+    		    resolve();
+    		}
+
+            openRequest.onerror = function(e) {
+    		    reject(event.target.error);
+    		}
+        });
 	};
 
-	this.initDB = function() {
-		//No support? Go in the corner and pout.
-		if(!"indexedDB" in window) return;
+    service.listAll = function() {
+        return $q(function(resolve, reject) {
+            protocols = [];
+            var cursor = service.db.transaction(["protocol"], "readonly").objectStore("protocol").openCursor();
+            cursor.onsuccess = function(event) {
+    			var cursor = event.target.result;
+    			if(cursor) {
+    				var protocol = {};
+    				protocol.key = cursor.key;
+    				for(var field in cursor.value) {
+                        switch (field) {
+                            case "desc":
+                                protocol.desc = cursor.value[field];
+                                break;
+                            case "type":
+                                protocol.type = cursor.value[field];
+                                break;
+                            case "eventDate":
+                                protocol.eventDate = cursor.value[field];
+                                break;
+                            case "status":
+                                protocol.status = cursor.value[field];
+                                break;
+                        }
+    				}
+    				protocols.push(protocol);
+    				cursor.continue();
+    			} else {
+                    resolve(protocols);
+                }
+    		}
 
-		var openRequest = indexedDB.open("protocol_db",1);
-
-		openRequest.onupgradeneeded = function(e) {
-			var thisDB = e.target.result;
-
-			if(!thisDB.objectStoreNames.contains("protocol")) {
-				var protocol = thisDB.createObjectStore("protocol", {autoIncrement:true, keyPath:"key"});
-				protocol.createIndex("desc", "desc", {unique:false});
-			}
-		}
-
-		openRequest.onsuccess = function(e) {
-			db = e.target.result;
-			console.log("Bando de dados Aberto");
-
-			console.log("Realizando consulta");
-			db.transaction(["protocol"], "readonly").objectStore("protocol").openCursor().onsuccess = function(e) {
-				var cursor = e.target.result;
-				if(cursor) {
-					var protocol = {};
-					protocol.key = cursor.key;
-					for(var field in cursor.value) {
-						if(field=='desc'){
-							protocol.desc = cursor.value[field];
-						} else if (field=='type'){
-							protocol.type = cursor.value[field];
-						} else if (field=='eventDate'){
-							protocol.eventDate = cursor.value[field];
-						} else if (field=='status'){
-							protocol.status = cursor.value[field];
-						}
-					}
-					console.log("Protocolo encontrado: " + protocol.key + " " + protocol.desc + " " + protocol.type + " " + protocol.status);
-					protocols.push(protocol);
-					cursor.continue();
-				}
-			}
-
-		}
-
-		openRequest.onerror = function(e) {
-			//Do something for the error
-		}
-
-		return db;
-	};
+            cursor.onerror = function(event) {
+                reject(event.target.error);
+            };
+        });
+    };
 
 	this.create = function(protocol) {
 		console.log("About to add a protocol");
@@ -93,34 +100,6 @@ angular.module("protocolApp")
 		}
 
 		return protocol;
-	};
-
-	this.list = function(filters) {
-		if(filters) {
-			db.transaction(["protocol"], "readonly").objectStore("protocol").openCursor().onsuccess = function(e) {
-				var cursor = e.target.result;
-				if(cursor) {
-					var protocol = {};
-					protocol.key = cursor.key;
-					for(var field in cursor.value) {
-						if(field=='desc'){
-							protocol.desc = cursor.value[field];
-						} else if (field=='type'){
-							protocol.type = cursor.value[field];
-						} else if (field=='eventDate'){
-							protocol.eventDate = cursor.value[field];
-						} else if (field=='status'){
-							protocol.status = cursor.value[field];
-						}
-					}
-					protocols.push(protocol);
-					cursor.continue();
-				}
-				return protocols;
-			}
-		} else {
-
-		}
 	};
 
 	this.getById = function(key) {
@@ -184,10 +163,6 @@ angular.module("protocolApp")
 			}
 		}
 	return protocol;
-	};
-
-	this.getProtocols = function() {
-		return protocols;
 	};
 
 	this.update = function(protocol) {
