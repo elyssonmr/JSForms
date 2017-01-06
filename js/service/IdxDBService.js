@@ -151,20 +151,23 @@ angular.module("protocolApp")
         });
 	};
 
-	this.deleteProtocol = function(key) {
-		if(key === "" || isNaN(key)) return;
+	service.delete = function(key) {
+        return $q(function(resolve, reject) {
+            if(key === "" || isNaN(key)) {
+                reject("Key não é um ID válido")
+            }
 
-		var transaction = db.transaction(["protocol"], "readwrite");
-		var store = transaction.objectStore("protocol");
+    		var store = service.db.transaction(["protocol"], "readwrite").objectStore("protocol");
 
-		var request = store.delete(Number(key));
+    		var request = store.delete(Number(key));
 
-		request.onsuccess = function(e) {
-		  console.log("Deleted key: ", key);
-		};
+            request.onsuccess = function(event) {
+                resolve();
+    		};
 
-		request.onerror = function(e) {
-		  console.log("Error Deleting key: ", key);
-		};
+    		request.onerror = function(event) {
+                reject(event.target.error);
+    		};
+        });
 	};
 }]);
