@@ -1,5 +1,6 @@
 angular.module("protocolApp")
-.controller('protocolController', function($scope, IdxDbService) {
+.controller('protocolController', function($rootScope, $scope, IdxDbService) {
+    $rootScope.setTitle("Protocols")
  	$scope.protocols = [];
 
     $scope.typesList = ['Documento', 'Pasta', 'Outros'];
@@ -12,7 +13,6 @@ angular.module("protocolApp")
             language: 'pt-BR',
             pickTime: false
         });
- 		console.log('INIT');
         $('#eventDate').click(function() {
             $('.add-on').click();
         });
@@ -31,16 +31,6 @@ angular.module("protocolApp")
                 $('#loading').modal('hide');
             });
         });
-        /*
-        //loading Popup
-		console.log("Lendo os protocolos");
-        setTimeout(function () {
-            $scope.$apply(function () {
-                $scope.protocols = IdxDbService.getProtocols();
-
-            });
-        }, 2000);
-        */
  	};
 
  	$scope.addProtocol = function() {
@@ -48,7 +38,7 @@ angular.module("protocolApp")
  		protocol.desc = $scope.desc;
  		protocol.type = $scope.type;
 		protocol.key = $scope.key;
- 		//Verify why we need this workaround with Edy
+
  		protocol.eventDate = $scope.eventDate.val();
  		protocol.status = $scope.status;
 

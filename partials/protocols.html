@@ -1,13 +1,4 @@
 <section id="content" data-ng-init="init()">
-    <div class="pull-left actions input-group filter-field">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
-        <input type="text" class="form-control input-lg" ng-model="searchStr">
-    </div>
-
-    <div class="pull-right actions">
-        <button class="btn btn-primary btn-lg" ng-click="showModal('add')"><i class="fa fa-plus-circle"></i> Adicionar Protocolo</button>
-    </div>
-
     <div class="modal fade" id="loading" role="dialog" data-backdrop="static" tabindex="-1" aria-hidden="true" aria-labelledby="Loading">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -24,8 +15,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!--Create/Update Form-->
     <div class="modal fade" id="modalConfimation" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
@@ -90,6 +79,16 @@
             </div>
         </form>
     </div>
+
+    <div class="pull-left actions input-group filter-field">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
+        <input type="text" class="form-control input-lg" ng-model="searchStr">
+    </div>
+
+    <div class="pull-right actions">
+        <button class="btn btn-primary btn-lg" ng-click="showModal('add')"><i class="fa fa-plus-circle"></i> Adicionar Protocolo</button>
+    </div>
+
     <div id="table" class="clearfix">
         <table class="table table-bordered table-hover table-striped">
             <thead>
