@@ -68,134 +68,87 @@ angular.module("protocolApp")
         });
     };
 
-	this.create = function(protocol) {
-		console.log("About to add a protocol");
+    service.create = function(protocol) {
+        return $q(function(resolve, reject) {
+            var store = service.db.transaction(["protocol"], "readwrite").transaction.objectStore("protocol");
+            var protocol = {
+    			desc: protocol.desc,
+    			type: protocol.type,
+    			eventDate: protocol.eventDate,
+    			status: protocol.status
+    		};
+            var request = store.add(protocol);
 
-		//Get a transaction
-		//default for OS list is all, default for type is read
-		var transaction = db.transaction(["protocol"],"readwrite");
-		//Ask for the objectStore
-		var store = transaction.objectStore("protocol");
+            request.onsuccess = function(event) {
+                protocol.key = request.result;
+                resolve(protocol);
+            };
 
-		//Define a protocol
-		var protocol = {
-			desc:protocol.desc,
-			type:protocol.type,
-			eventDate:protocol.eventDate,
-			status:protocol.status
-		}
+            request.onerror = function(e) {
+    			reject(event.target.error);
+    		};
+        });
+    };
 
-		//Perform the add
-		var request = store.add(protocol);
+	service.getById = function(key) {
+        return $q(function(resolve, reject) {
+            var protocol = {};
+    		var store = service.db.transaction(["protocol"], "readonly").transaction.objectStore("protocol");
 
-		request.onerror = function(e) {
-			console.log("Error",e.target.error.name);
-			//some type of error handler
-		}
+    		var request = store.get(Number(key));
 
-		request.onsuccess = function(e) {
-			console.log("Protocol added!");
-			//Get the ID from the result request
-			protocol.key = request.result;
-		}
-
-		return protocol;
+    		request.onsuccess = function(event) {
+    			var result = event.target.result;
+    			if(result) {
+    				for(var field in result) {
+                        switch (field) {
+                            case "desc":
+                                protocol.desc = result.value[field];
+                                break;
+                            case "type":
+                                protocol.type = result.value[field];
+                                break;
+                            case "eventDate":
+                                protocol.eventDate = result.value[field];
+                                break;
+                            case "status":
+                                protocol.status = result.value[field];
+                                break;
+                        }
+    				}
+                    resolve(protocol);
+    			} else {
+                    resolve({});
+    			}
+    		}
+        });
 	};
 
-	this.getById = function(key) {
-		var protocol = {};
-		var transaction = db.transaction(["protocol"],"readonly");
-		var store = transaction.objectStore("protocol");
+	service.update = function(protocol) {
+        return $q(function(resolve, reject) {
+            var store = service.db.transaction(["protocol"],"readwrite").transaction.objectStore("protocol");
+            var getRequest = store.get(Number(protocol.key))
+            getRequest.onsuccess = function(event) {
+    			var protocolToUpdate = event.target.result;
+    			protocolToUpdate.desc = protocol.desc;
+    			protocolToUpdate.type = protocol.type;
+    			protocolToUpdate.eventDate = protocol.eventDate;
+    			protocolToUpdate.status = protocol.status;
+    			var request = store.put(protocolToUpdate);
 
-		var request = store.get(Number(key));
+    			request.onerror = function(event) {
+    				reject(event.target.error.name);
+    			};
 
-		request.onsuccess = function(e) {
+    			request.onsuccess = function(e) {
+                    resolve(protocolToUpdate);
+    			};
+    		};
 
-			var result = e.target.result;
-			if(result) {
-				for(var field in result) {
-					if(field=='desc'){
-						protocol.desc = result[field];
-					} else if (field=='type'){
-						protocol.type = result[field];
-					} else if (field=='eventDate'){
-						protocol.eventDate = result[field];
-					} else if (field=='status'){
-						protocol.status = result[field];
-					} else if (field=='key'){
-						protocol.key = result[field];
-					}
-				}
-			} else {
-			}
-		}
-	return protocol;
-	};
-
-	this.getByDesc = function(desc) {
-		if(desc === "" ) return;
-
-		var protocol = {};
-		var transaction = db.transaction(["protocol"],"readonly");
-		var store = transaction.objectStore("protocol");
-		var index = store.index("desc");
-
-		var request = index.get(desc);
-
-		request.onsuccess = function(e) {
-
-			var result = e.target.result;
-			if(result) {
-				for(var field in result) {
-					if(field=='desc'){
-						protocol.desc = result[field];
-					} else if (field=='type'){
-						protocol.type = result[field];
-					} else if (field=='eventDate'){
-						protocol.eventDate = result[field];
-					} else if (field=='status'){
-						protocol.status = result[field];
-					} else if (field=='key'){
-						protocol.key = result[field];
-					}
-				}
-			} else {
-			}
-		}
-	return protocol;
-	};
-
-	this.update = function(protocol) {
-		console.log("About to update a protocol");
-
-		//Get a transaction
-		//default for OS list is all, default for type is read
-		var transaction = db.transaction(["protocol"],"readwrite");
-		//Ask for the objectStore
-		var store = transaction.objectStore("protocol");
-
-		//Get the protocol by description, must be by ID, not description!!!
-		store.get(Number(protocol.key)).onsuccess = function(e) {
-			var protocolToUpdate = e.target.result;
-			//Perform the update
-			protocolToUpdate.desc = protocol.desc;
-			protocolToUpdate.type = protocol.type;
-			protocolToUpdate.eventDate = protocol.eventDate;
-			protocolToUpdate.status = protocol.status;
-			var request = store.put(protocolToUpdate);
-
-			request.onerror = function(e) {
-				console.log("Error",e.target.error.name);
-				//some type of error handler
-			}
-
-			request.onsuccess = function(e) {
-				console.log("Protocol updated!");
-			}
-
-		}
-
-
+            getRequest.onerror = function(event) {
+                reject("Protocol não existe")
+            };
+        });
 	};
 
 	this.deleteProtocol = function(key) {
