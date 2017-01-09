@@ -1,4 +1,4 @@
-angular.module("protocolApp", ["ngRoute"])
+angular.module("protocolApp", ["ngRoute", "ui.bootstrap"])
 .config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
