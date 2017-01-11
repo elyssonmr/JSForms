@@ -154,7 +154,7 @@ angular.module("protocolApp")
 	service.delete = function(key) {
         return $q(function(resolve, reject) {
             if(key === "" || isNaN(key)) {
-                reject("Key não é um ID válido")
+                reject("Key não é um ID válido");
             }
 
     		var store = service.db.transaction(["protocol"], "readwrite").objectStore("protocol");

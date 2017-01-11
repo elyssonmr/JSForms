@@ -1,24 +1,4 @@
 <section id="content" data-ng-init="init()">
-
-    <!--Create/Update Form-->
-    <div class="modal fade" id="modalConfimation" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="deleteRow(false)">&times;</button>
-                    <h4 class="modal-title" id="modalTitle">Confima a Exclusão?</h4>
-                </div>
-                <div class="modal-body">
-                    <h3>Deseja Realmente deletar esse Registro?</h3>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="deleteRow(false)">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnDelete" ng-click="deleteRow(true)">Confirmar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="pull-left actions input-group filter-field">
         <span class="input-group-addon"><i class="glyphicon glyphicon-filter"></i></span>
         <input type="text" class="form-control input-lg" ng-model="searchStr">
@@ -49,10 +29,10 @@
                     <td>{{ protocol.eventDate }}</td>
                     <td>{{ protocol.status }}</td>
                     <td>
-                        <a class="btn btn-warning" href="#" ng-click="prepareEditRow($index)">
+                        <a class="btn btn-warning" href="#">
                             <i class="glyphicon glyphicon-edit"></i>
                         </a>
-                        <a href="#" class="btn btn-danger" ng-click="prepareDeleteRow($index)">
+                        <a class="btn btn-danger" ng-click="prepararDelecao($index)">
                             <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </td>

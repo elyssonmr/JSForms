@@ -23,16 +23,31 @@ angular.module("protocolApp")
     };
 
     $scope.prepararAdd = function() {
-        $scope.addModal = $uibModal.open({
+        var addModal = $uibModal.open({
             animation: false,
             templateUrl: 'partials/modal/addProtocolModal.html',
             controller: "addProtocolController",
             controllerAs: "ctrl",
         });
-        $scope.addModal.result.then(function(reason) {
+        addModal.result.then(function(reason) {
             if(reason.status == "Adicionado") {
                 $scope.protocols.push(reason.resp);
             }
         }).catch(function(reason) {});
+    };
+
+    $scope.prepararDelecao = function(index) {
+        var deleteModal = $uibModal.open({
+            animation: false,
+            templateUrl: 'partials/modal/deleteModal.html',
+            controller: function($scope) {
+                $scope.index = index;
+            }
+        });
+        deleteModal.result.then(function(index) {
+            IdxDbService.delete($scope.protocols[index].key).then(function() {
+                $scope.protocols.splice(index, 1);
+            });
+        }).catch(function() {});
     };
  });
