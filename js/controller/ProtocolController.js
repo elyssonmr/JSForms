@@ -1,5 +1,5 @@
 angular.module("protocolApp")
-.controller('protocolController', function($rootScope, $scope, IdxDbService, $uibModal, $document) {
+.controller('protocolController', function($rootScope, $scope, IdxDbService, bsLoadingOverlayService) {
     $rootScope.setTitle("Protocols")
  	$scope.protocols = [];
 
@@ -9,9 +9,11 @@ angular.module("protocolApp")
     $scope.status = $scope.statusList[0];
 
     $scope.init = function() {
+        bsLoadingOverlayService.start();
         IdxDbService.init().then(function() {
             IdxDbService.listAll().then(function(protocols) {
                 $scope.protocols = protocols;
+                bsLoadingOverlayService.stop();
             });
         });
     };

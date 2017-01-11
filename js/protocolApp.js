@@ -1,4 +1,4 @@
-angular.module("protocolApp", ["ngRoute", "ui.bootstrap"])
+angular.module("protocolApp", ["ngRoute", "bsLoadingOverlay", "ui.bootstrap"])
 .config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
@@ -14,6 +14,11 @@ angular.module("protocolApp", ["ngRoute", "ui.bootstrap"])
         })
         .otherwise({redirectTo:'/'});
     $locationProvider.hashPrefix('');
+})
+.run(function(bsLoadingOverlayService) {
+    bsLoadingOverlayService.setGlobalConfig({
+        templateUrl: 'partials/loading.html'
+    });
 })
 .run(function($rootScope, $location) {
     $rootScope.pageTitle = "";
