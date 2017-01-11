@@ -29,5 +29,10 @@ angular.module("protocolApp")
             controller: "addProtocolController",
             controllerAs: "ctrl",
         });
+        $scope.addModal.result.then(function(reason) {
+            if(reason.status == "Adicionado") {
+                $scope.protocols.push(reason.resp);
+            }
+        }).catch(function(reason) {});
     };
  });

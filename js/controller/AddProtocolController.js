@@ -30,7 +30,7 @@ angular.module("protocolApp")
             status: $scope.status
         };
         IdxDbService.create(protocol).then(function(resp) {
-            $uibModalInstance.close({satus: "Adicionado", resp: resp});
+            $uibModalInstance.close({status: "Adicionado", resp: resp});
         });
     };
 
