@@ -8,6 +8,20 @@ angular.module("protocolApp")
     $scope.status = $scope.statusList[0];
     $scope.protocol = {};
 
+    $scope.eventDate = new Date();
+    $scope.dtPicker = {
+        options: {
+            showWeeks: false,
+            minDate: new Date()
+        },
+        opened: false
+    };
+
+    $scope.exibirCalendario = function() {
+        console.log("Calendario");
+        $scope.dtPicker.opened = true;
+    }
+
     $scope.addProtocol = function() {
         console.log("Save Protocol");
 

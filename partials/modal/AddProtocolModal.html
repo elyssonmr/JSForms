@@ -17,10 +17,12 @@
             <label class="control-label" for="eventDate">Data do Evento:</label>
             <div id="datepicker" class="input-append date">
                 <div class="input-group">
-                    <span class="input-group-addon add-on" ng-click="showCalendar()">
-                        <i class="glyphicon glyphicon-calendar"></i>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="exibirCalendario()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
                     </span>
-                    <input data-format="dd/MM/yyyy" type="text" placeholder="xx/xx/xxxx" class="form-control" id="eventDate" name="eventDate" ng-model="date" required/>
+                    <input type="text" readonly class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="eventDate" is-open="dtPicker.opened" datepicker-options="dtPicker.options" ng-required="true" close-text="Fechar" clear-text="Limpar" current-text="Hoje"/>
                 </div>
             </div>
         </div>
