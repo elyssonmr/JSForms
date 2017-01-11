@@ -70,14 +70,14 @@ angular.module("protocolApp")
 
     service.create = function(protocol) {
         return $q(function(resolve, reject) {
-            var store = service.db.transaction(["protocol"], "readwrite").transaction.objectStore("protocol");
-            var protocol = {
+            var store = service.db.transaction(["protocol"], "readwrite").objectStore("protocol");
+            var record = {
     			desc: protocol.desc,
     			type: protocol.type,
     			eventDate: protocol.eventDate,
     			status: protocol.status
     		};
-            var request = store.add(protocol);
+            var request = store.add(record);
 
             request.onsuccess = function(event) {
                 protocol.key = request.result;

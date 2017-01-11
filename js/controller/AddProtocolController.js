@@ -1,5 +1,5 @@
 angular.module("protocolApp")
-.controller('addProtocolController', function($scope, $uibModalInstance) {
+.controller('addProtocolController', function($scope, $uibModalInstance, IdxDbService) {
     $scope.typesList = ['Documento', 'Pasta', 'Outros'];
     $scope.statusList = ['Protocolado', 'Com Pendência', 'Recusado'];
     $scope.title = "Adicionar Protocolo";
@@ -23,9 +23,15 @@ angular.module("protocolApp")
     }
 
     $scope.addProtocol = function() {
-        console.log("Save Protocol");
-
-        $uibModalInstance.close('done');
+        var protocol = {
+            desc: $scope.desc,
+            type: $scope.type,
+            eventDate: $scope.eventDate,
+            status: $scope.status
+        };
+        IdxDbService.create(protocol).then(function(resp) {
+            $uibModalInstance.close({satus: "Adicionado", resp: resp});
+        });
     };
 
     $scope.cancelar = function() {
