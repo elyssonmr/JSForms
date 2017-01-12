@@ -50,4 +50,23 @@ angular.module("protocolApp")
             });
         }).catch(function() {});
     };
+
+    $scope.prepararEdicao = function(index) {
+        var updateModal = $uibModal.open({
+            animation: false,
+            templateUrl: 'partials/modal/addProtocolModal.html',
+            controller: "updateProtocolController",
+            controllerAs: "ctrl",
+            resolve: {
+                protocolo: function() {
+                    return $scope.protocols[index];
+                }
+            }
+        });
+        updateModal.result.then(function(reason) {
+            if(reason.status == "Atualizado") {
+                $scope.protocols[index] = reason.resp;
+            }
+        }).catch(function(reason) {});
+    };
  });

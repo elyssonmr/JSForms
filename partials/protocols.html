@@ -29,7 +29,7 @@
                     <td>{{ protocol.eventDate }}</td>
                     <td>{{ protocol.status }}</td>
                     <td>
-                        <a class="btn btn-warning" href="#">
+                        <a class="btn btn-warning" ng-click="prepararEdicao($index)">
                             <i class="glyphicon glyphicon-edit"></i>
                         </a>
                         <a class="btn btn-danger" ng-click="prepararDelecao($index)">

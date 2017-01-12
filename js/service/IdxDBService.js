@@ -126,7 +126,7 @@ angular.module("protocolApp")
 
 	service.update = function(protocol) {
         return $q(function(resolve, reject) {
-            var store = service.db.transaction(["protocol"],"readwrite").transaction.objectStore("protocol");
+            var store = service.db.transaction(["protocol"],"readwrite").objectStore("protocol");
             var getRequest = store.get(Number(protocol.key))
             getRequest.onsuccess = function(event) {
     			var protocolToUpdate = event.target.result;
