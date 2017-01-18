@@ -1,78 +1,8 @@
 angular.module("protocolApp")
-.controller('reportController', function($scope, IdxDbService) {
+.controller('reportController', function($scope, IdxDbService, bsLoadingOverlayService) {
     $scope.protocols = [];
 
-    $scope.init = function() {
-        //Init the DB
-        IdxDbService.init();
-        $('#loading').modal('show');
-        setTimeout(function () {
-            $scope.$apply(function () {
-                $scope.protocols = IdxDbService.getProtocols();
-                $scope.loadCharts();
-                $('#loading').modal('hide');
-            });
-        }, 2000);
-    };
-
-    $scope.loadCharts = function() {
-        $scope.loadStatusChart();
-        $scope.loadTypeChart();
-    };
-
-    $scope.loadStatusChart = function() {
-        var serie = {
-            type: 'pie',
-            name: 'Procentagem',
-            data: [
-                {name:'Protocolado', y:0, color:"#29D124"},
-                {name:'Com pedência', y:0, color:"#FFFF00"},
-                {name:'Recusado', y:0, color:"#FF0000"},
-            ]
-        };
-
-        $.each($scope.protocols, function(idx, protocol) {
-            if(protocol.status == "Protocolado") {
-                serie.data[0].y += 1;
-            } else if(protocol.status == "Com Pendência") {
-                serie.data[1].y += 1;
-            } else if(protocol.status == "Recusado") {
-                serie.data[2].y += 1;
-            }
-        });
-
-        $scope.pieTemplate.series.push(serie);
-
-        $("#statusChart").highcharts($scope.pieTemplate);
-    };
-
-    $scope.loadTypeChart = function() {
-        var serie = {
-            name: "Tipos de Documento",
-            data: [
-                {color:highchartsOptions.colors[0], y:0},
-                {color:highchartsOptions.colors[1], y:0},
-                {color:highchartsOptions.colors[2], y:0}
-            ]
-        };
-
-        $.each($scope.protocols, function(idx, protocol) {
-            if(protocol.type == "Documento") {
-                serie.data[0].y += 1;
-            } else if(protocol.type == "Pasta") {
-                serie.data[1].y += 1;
-            } else if(protocol.type == "Outros") {
-                serie.data[2].y += 1;
-            }
-        });
-
-        $scope.columnTemplate.series.push(serie);
-
-        $("#typeChart").highcharts($scope.columnTemplate);
-
-    };
-
-    $scope.columnTemplate = {
+    $scope.barOptions = {
         chart: {
                 type: 'column'
             },
@@ -105,7 +35,7 @@ angular.module("protocolApp")
             series: []
         };
 
-    $scope.pieTemplate = {
+    $scope.pieOptions = {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -132,5 +62,64 @@ angular.module("protocolApp")
             }
         },
         series: []
+    };
+
+    $scope.init = function() {
+        bsLoadingOverlayService.start();
+        IdxDbService.init().then(function() {
+            IdxDbService.listAll().then(function(protocols) {
+                $scope.protocols = protocols;
+                $scope.loadStatusChart();
+                $scope.loadTypeChart();
+                bsLoadingOverlayService.stop();
+            });
+        });
+    };
+
+    $scope.loadStatusChart = function() {
+        var serie = {
+            type: 'pie',
+            name: 'Procentagem',
+            data: [
+                {name:'Protocolado', y: 0, color:"#29D124"},
+                {name:'Com pedência', y: 0, color:"#FFFF00"},
+                {name:'Recusado', y: 0, color:"#FF0000"},
+            ]
+        };
+
+        $.each($scope.protocols, function(idx, protocol) {
+            if(protocol.status == "Protocolado") {
+                serie.data[0].y += 1;
+            } else if(protocol.status == "Com Pendência") {
+                serie.data[1].y += 1;
+            } else if(protocol.status == "Recusado") {
+                serie.data[2].y += 1;
+            }
+        });
+
+        $scope.pieOptions.series.push(serie);
+    };
+
+    $scope.loadTypeChart = function() {
+        var serie = {
+            name: "Tipos de Documento",
+            data: [
+                {color: highchartsOptions.colors[0], y:0},
+                {color: highchartsOptions.colors[1], y:0},
+                {color: highchartsOptions.colors[2], y:0}
+            ]
+        };
+
+        $.each($scope.protocols, function(idx, protocol) {
+            if(protocol.type == "Documento") {
+                serie.data[0].y += 1;
+            } else if(protocol.type == "Pasta") {
+                serie.data[1].y += 1;
+            } else if(protocol.type == "Outros") {
+                serie.data[2].y += 1;
+            }
+        });
+
+        $scope.barOptions.series.push(serie);
     };
 });

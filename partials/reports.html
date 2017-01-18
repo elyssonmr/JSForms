@@ -1,22 +1,10 @@
-<section id="content">
-	<div class="modal fade" id="loading" role="dialog" data-backdrop="static" tabindex="-1" aria-hidden="true" aria-labelledby="Loading">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="modalTitle">Por favor, Espere!</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="progress progress-striped active">
-                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                        <span class="sr-only">Carregando Gráficos!</span>
-                    </div>
-                </div>
-                </div>
-            </div>
+<section id="content" data-ng-init="init()">
+    <div class="bs-loading-container" bs-loading-overlay>
+        <div class="row chart-medium">
+            <highcharts-chart options="pieOptions" class="col-md-12"></highcharts-chart>
         </div>
-	</div>
-	<section>
-		<div class="chart-medium" id="statusChart"></div>
-		<div class="chart-medium" id="typeChart"></div>
-	</section>
+        <div class="row chart-medium">
+            <highcharts-chart options="barOptions" class="col-md-12"></highcharts-chart>
+        </div>
+    </div>
 </section>
