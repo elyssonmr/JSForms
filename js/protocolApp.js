@@ -2,7 +2,7 @@ angular.module("protocolApp", ["ngRoute", "bsLoadingOverlay", "ui.bootstrap"])
 .config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "/partials/main.html"
+            templateUrl: "partials/main.html"
         })
         .when("/protocol", {
             templateUrl: "partials/protocols.html",

@@ -1,5 +1,6 @@
 angular.module("protocolApp")
-.controller('reportController', function($scope, IdxDbService, bsLoadingOverlayService) {
+.controller('reportController', function($rootScope, $scope, IdxDbService, bsLoadingOverlayService) {
+    $rootScope.setTitle("Relatórios")
     $scope.protocols = [];
 
     $scope.barOptions = {
